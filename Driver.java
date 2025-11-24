@@ -50,13 +50,26 @@ public class Driver {
         System.out.print("Enter property name: ");
         String input = sc.nextLine().trim();
         String propertyName = capitalizedFirstLetter(input);
+
         if (input.isEmpty()) {
             System.out.println("Error: Property name can not be empty");
+            return;
         }
-        else if (system.createProperty(propertyName)) {
-            System.out.println("Property '" + propertyName + "' created successfully. ");
+
+        // New Menu for Type Selection
+        System.out.println("Select Property Type:");
+        System.out.println("1. Eco-Apartment (Standard 1500.0)");
+        System.out.println("2. Sustainable House (1800.0)");
+        System.out.println("3. Green Resort (2025.0)");
+        System.out.println("4. Eco-Glamping (2250.0)");
+        System.out.print("Choice: ");
+        int type = readInt();
+
+        // Pass both name and type to the system
+        if (system.createProperty(propertyName, type)) {
+            System.out.println("Property '" + propertyName + "' created successfully.");
         } else {
-            System.out.println("Error: The property name has already exists. ");
+            System.out.println("Error: The property name already exists.");
         }
     }
 
