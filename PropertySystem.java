@@ -6,9 +6,18 @@ public class PropertySystem {
 
     private List<Property> properties = new ArrayList<>();
 
-    public boolean createProperty(String name) {
+    public boolean createProperty(String name, int type) {
         if (!isNameUnique(name)) return false;
-        Property p = new DefaultProperty(name);  // Use subclass
+
+        Property p;
+        switch (type) {
+            case 1 -> p = new EcoApartment(name);
+            case 2 -> p = new SustainableHouse(name);
+            case 3 -> p = new GreenResort(name);
+            case 4 -> p = new EcoGlamping(name);
+            default -> p = new EcoApartment(name); // Default fallback
+        }
+    
         properties.add(p);
         return true;
     }
