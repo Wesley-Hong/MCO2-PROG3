@@ -58,10 +58,10 @@ public class Driver {
 
         // New Menu for Type Selection
         System.out.println("Select Property Type:");
-        System.out.println("1. Eco-Apartment (Standard 1500.0)");
-        System.out.println("2. Sustainable House (1800.0)");
-        System.out.println("3. Green Resort (2025.0)");
-        System.out.println("4. Eco-Glamping (2250.0)");
+        System.out.println("1. Eco-Apartment");
+        System.out.println("2. Sustainable House");
+        System.out.println("3. Green Resort");
+        System.out.println("4. Eco-Glamping");
         System.out.print("Choice: ");
         int type = readInt();
 
