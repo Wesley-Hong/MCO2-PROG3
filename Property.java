@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Represent property listing in the property system
- * Each property contains property name, base price per night
- * array of days and array list of reservations
+ * Represent property listing in the property system.
+ * Each property contains property name, base price per night,
+ * array of days and array list of reservations.
  */
-public class Property {
+public abstract class Property {   
 
     private String name;
     private double basePrice = 1500.0;
@@ -65,7 +65,6 @@ public class Property {
         return count;
     }
 
-
     /**
      * Generate the calendar view that show day, booking status, and price
      * @return a formatted string showing all days, booking status, and price
@@ -76,7 +75,7 @@ public class Property {
         for (int i = 0; i < days.length; i++) {
             Day d = days[i];
             sb.append(String.format("%2d: %-7s (%.2f)", d.getDateNumber(), d.getStatus(), d.getPrice()));
-            if ((i + 1) % 5 == 0) sb.append(System.lineSeparator()); // break into rows of 5 for readability
+            if ((i + 1) % 5 == 0) sb.append(System.lineSeparator()); 
             else sb.append(" | ");
         }
         return sb.toString();
@@ -94,26 +93,14 @@ public class Property {
 
     // ---------- Manage Property Methods ----------
 
-    /**
-     * Changing the property name if it is unique
-     * @param newName the new property name
-     * @param system the property system used to validate uniqueness
-     * @return true -> name successfully update, false -> name is not unique
-     */
     public boolean setName(String newName, PropertySystem system) {
         if (newName == null || newName.isEmpty()) return false;
-        if (newName.equals(this.name)) return true; // no change
+        if (newName.equals(this.name)) return true; 
         if (!system.isNameUnique(newName)) return false;
         this.name = newName;
         return true;
     }
 
-    /**
-     * Update base price if no active reservation
-     * The new price should be higher than 100 pesos
-     * @param newPrice new base price to apply
-     * @return true -> successfully updated, false -> won't update
-     */
     public boolean updateBasePrice(double newPrice) {
         if (!reservations.isEmpty()) return false;
         if (newPrice < 100.0) return false;
@@ -122,16 +109,10 @@ public class Property {
         return true;
     }
 
-    /**
-     * Removes specific reservation and updates the calendar
-     * @param res the reservation to remove
-     * @return true -> successfully removed, false -> won't remove
-     */
     public boolean removeReservation(Reservation res) {
         if (res == null) return false;
         boolean removed = reservations.remove(res);
         if (!removed) return false;
-        // clear day links
         int start = res.getCheckInDate();
         int end = res.getCheckOutDate();
         for (int d = start; d < end; d++) {
@@ -143,14 +124,7 @@ public class Property {
 
     // ---------- Booking / Simulation Methods ----------
 
-    /**
-     * Check if the given date range is available for booking
-     * @param checkIn check in day number
-     * @param checkOut check out day number
-     * @return true -> all days in range are available, false -> one of the days in range is not available
-     */
     public boolean isDateRangeAvailable(int checkIn, int checkOut) {
-        // Validate boundaries
         if (checkIn < 1 || checkIn > 30) return false;
         if (checkOut < 1 || checkOut > 31) return false;
         if (!(checkIn < checkOut)) return false;
@@ -161,13 +135,6 @@ public class Property {
         return true;
     }
 
-    /**
-     * Booking for the guest if the specified date range is valid and available
-     * @param guestName the guest making the reservation
-     * @param checkIn check in day number
-     * @param checkOut check out day number
-     * @return true -> new reservation, false -> no reservation being made
-     */
     public Reservation createBooking(String guestName, int checkIn, int checkOut) {
         if (!isDateRangeAvailable(checkIn, checkOut)) return null;
 
@@ -189,26 +156,14 @@ public class Property {
 
     // ---------- Getters ----------
 
-    /**
-     * Returns the property name
-     * @return the name of the property
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * Return the current based price of the property
-     * @return the base price
-     */
     public double getBasePrice() {
         return basePrice;
     }
 
-    /**
-     * Return the list of all reservations associated with this property
-     * @return reservation list
-     */
     public List<Reservation> getReservations() {
         return reservations;
     }
