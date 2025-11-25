@@ -1,15 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
-import java.util.jar.JarEntry;
 
-public class GUItest {
+public class GUIView {
 
     private final Font TITLE_FONT = new Font("Times New Roman", Font.PLAIN, 50);
     private final Font LABEL_FONT = new Font("Arial", Font.BOLD, 20);
     private final Font INPUT_FONT = new Font("Arial", Font.PLAIN, 20);
 
     public static void main(String[] args) {
-        new GUItest().start();
+        new GUIView().start();
     }
 
     // start method
