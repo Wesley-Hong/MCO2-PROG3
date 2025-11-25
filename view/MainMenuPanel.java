@@ -26,7 +26,7 @@ public class MainMenuPanel extends JPanel {
         JButton b3 = Style.createButton("Manage Property",
                 340, 300, 220, 60, e -> controller.switchScreenWithValidation("Choosing"));
         JButton b4 = Style.createButton("Simulate Booking",
-                340, 400, 220, 60, e -> controller.switchScreenWithValidation("Booking"));
+                340, 400, 220, 60, e -> controller.switchScreenWithValidation("Chosen"));
 
         add(b1);
         add(b2);

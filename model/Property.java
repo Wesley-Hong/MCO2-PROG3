@@ -169,4 +169,8 @@ public abstract class Property {
     public List<Reservation> getReservations() {
         return reservations;
     }
+
+    public Day[] getDays() {
+        return days;
+    }
 }

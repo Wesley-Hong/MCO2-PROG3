@@ -28,13 +28,17 @@ public class MainFrame extends JFrame {
 
         // 4 main screen
         mainContainer.add(new CreatePropertyPanel(this), "Create");
-        mainContainer.add(new ViewPropertyPanel(this), "View");
+        mainContainer.add(new ViewPropertyPanel(controller), "View");
         mainContainer.add(new ManagePropertyPanel(controller), "Manage");
+        mainContainer.add(new BookingPanel(controller), "Booking");
 
-        // sub screen
+        // sub screen for choosing property
         mainContainer.add(new ChoosePropertyViewPanel(controller), "Choose");
         mainContainer.add(new ChoosePropertyManagePanel(controller), "Choosing");
-        mainContainer.add(new CalendarPanel(this), "Calendar");
+        mainContainer.add(new ChoosePropertyReservationPanel(controller), "Chosen");
+
+        // sub screen for property functions
+        mainContainer.add(new CalendarPanel(controller), "Calendar");
         add(mainContainer);
         setVisible(true);
     }

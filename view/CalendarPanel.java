@@ -1,14 +1,19 @@
 package view;
 
+import controller.Controller;
+import model.Day;
+import model.Property;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class CalendarPanel extends JPanel {
 
-    private MainFrame mainFrame;
+    private Controller controller;
+    private JPanel grid;
 
-    public CalendarPanel(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
+    public CalendarPanel(Controller controller) {
+        this.controller = controller;
         setLayout(null);
         setBackground(Style.BG);
 
@@ -38,49 +43,80 @@ public class CalendarPanel extends JPanel {
         add(dayHeader);
 
         // calendar grid
-        JPanel grid = new JPanel(new GridLayout(5, 7, 3, 3));
+        grid = new JPanel(new GridLayout(5, 7, 3, 3));
         grid.setBounds(50, 120, 800, 360);
         grid.setBackground(Color.decode("#68BA7F"));
-
-        for (int day = 1; day <= 35; day++) {
-
-            JPanel cell = new JPanel(new BorderLayout());
-            cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-            cell.setBackground(Color.WHITE);
-
-            if (day <= 30) {
-
-                // TOP-LEFT: Day number (small panel)
-                JPanel topLeft = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
-                topLeft.setOpaque(false);
-                JLabel dayLabel = new JLabel(String.valueOf(day));
-                dayLabel.setFont(new Font("Arial", Font.BOLD, 16));
-                topLeft.add(dayLabel);
-
-                // BOTTOM-RIGHT: Price label
-                JPanel bottomRight = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-                bottomRight.setOpaque(false);
-                JLabel priceLabel = new JLabel("₱1500");
-                priceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-                bottomRight.add(priceLabel);
-
-                // Add to cell
-                cell.add(topLeft, BorderLayout.NORTH);
-                cell.add(bottomRight, BorderLayout.SOUTH);
-
-            } else {
-                // Empty cell
-                cell.add(new JLabel(""), BorderLayout.CENTER);
-            }
-
-            grid.add(cell);
-        }
-
         add(grid);
 
         JButton back = Style.createButton("Back",
-                750, 500, 100, 40, e -> mainFrame.showScreen("Menu"));
+                750, 500, 100, 40, e -> controller.switchScreen("View"));
         add(back);
+    }
+
+    @Override
+    public void setVisible(boolean visible) {
+        super.setVisible(visible);
+        if (visible) {
+            updateCalendar();
+        }
+    }
+
+    private void updateCalendar() {
+        grid.removeAll();
+
+        Property currentProperty = controller.getCurrentProperty();
+
+        Day[] days = currentProperty.getDays();
+
+        for (int i = 1; i <= 35; i++) {
+            JPanel cell = new JPanel(new BorderLayout());
+            cell.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+            cell.setBackground(Color.WHITE);
+
+            if (i <= 30) {
+                Day day = days[i - 1];
+                double price = currentProperty.getBasePrice();
+                boolean isBooked = day.isBooked();
+
+                if (isBooked) {
+                    cell.setBackground(Color.decode("#FFCCCC"));
+                }
+
+                // top left day number
+                JPanel topLeft = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+                topLeft.setOpaque(false);
+                JLabel dayLabel = new JLabel(String.valueOf(i));
+                dayLabel.setFont(new Font("Arial", Font.BOLD, 16));
+                topLeft.add(dayLabel);
+
+                // add booking status
+                JLabel status = new JLabel(day.getStatus());
+                status.setFont(new Font("Arial", Font.ITALIC, 10));
+
+                JPanel topCenter = new JPanel(new FlowLayout(FlowLayout.CENTER));
+                topCenter.setOpaque(false);
+                topCenter.add(status);
+
+                // bottom right
+                JPanel bottomRight = new JPanel(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+                bottomRight.setOpaque(false);
+
+                // format price
+                JLabel priceLabel = new JLabel(String.format("₱%.0f", price));
+                priceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+
+                bottomRight.add(priceLabel);
+
+                cell.add(topLeft, BorderLayout.NORTH);
+                cell.add(topCenter, BorderLayout.CENTER);
+                cell.add(bottomRight, BorderLayout.SOUTH);
+
+            }
+            grid.add(cell);
+        }
+        grid.revalidate();
+        grid.repaint();
 
     }
 
