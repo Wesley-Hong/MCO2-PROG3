@@ -124,6 +124,24 @@ public abstract class Property {
         return true;
     }
 
+    /**
+     * Applies a pricing modifier to a specific day.
+     */
+    public boolean setEnvironmentalDayModifier(int dateNumber, double modifier) {
+        if (dateNumber < 1 || dateNumber > 30) return false;
+
+        Day targetDay = days[dateNumber - 1];
+
+        try {
+            targetDay.setEnvironmentalModifier(modifier);
+            return true;
+        } catch (IllegalArgumentException e) {
+            // Handle validation error if modifier is out of range
+            System.err.println("Error: " + e.getMessage());
+            return false;
+        }
+    }
+
     // ---------- Booking / Simulation Methods ----------
 
     public boolean isDateRangeAvailable(int checkIn, int checkOut) {
