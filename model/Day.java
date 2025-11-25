@@ -10,6 +10,7 @@ public class Day {
     private final int DATE_NUMBER; // 1..30
     private double price;
     private Reservation reservation; // null if available
+    private double environmentalModifier = 1.0;
 
     /**
      * Constructor for Day
@@ -67,7 +68,7 @@ public class Day {
      * @return current base price
      */
     public double getPrice() {
-        return price;
+        return price * environmentalModifier;
     }
 
     /**
@@ -84,5 +85,17 @@ public class Day {
      */
     public String getStatus() {
         return isBooked() ? "Booked" : "Available";
+    }
+
+    /**
+     * Assigning Environmental Modifier to this day
+     * @param modifier Modifier to be assigned
+     */
+    public void setEnvironmentalModifier(double modifier) {
+        // Add validation: 0.80 to 1.20 check
+        if (modifier < 0.8 || modifier > 1.2) {
+            throw new IllegalArgumentException("Modifier must be between 0.80 and 1.20.");
+        }
+        this.environmentalModifier = modifier;
     }
 }
