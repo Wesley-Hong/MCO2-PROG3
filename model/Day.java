@@ -1,3 +1,5 @@
+package model;
+
 /**
  * Represents the single day in a property's availability calendar.
  * Each Day contains date number (from 1 to 30), the base price, reservation status

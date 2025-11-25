@@ -22,11 +22,11 @@ public class MainMenuPanel extends JPanel {
         JButton b1 = Style.createButton("Create Property",
                 340, 100, 220, 60, e -> controller.switchScreen("Create"));
         JButton b2 = Style.createButton("View Property",
-                340, 200, 220, 60, e -> controller.switchScreen("View"));
+                340, 200, 220, 60, e -> controller.switchScreenWithValidation("Choose"));
         JButton b3 = Style.createButton("Manage Property",
-                340, 300, 220, 60, e -> controller.switchScreen("Manage"));
+                340, 300, 220, 60, e -> controller.switchScreenWithValidation("Choosing"));
         JButton b4 = Style.createButton("Simulate Booking",
-                340, 400, 220, 60, e -> controller.switchScreen("Booking"));
+                340, 400, 220, 60, e -> controller.switchScreenWithValidation("Booking"));
 
         add(b1);
         add(b2);

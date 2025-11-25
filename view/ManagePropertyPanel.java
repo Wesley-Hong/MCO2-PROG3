@@ -1,15 +1,20 @@
 package view;
 
+import controller.Controller;
+import model.Property;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ManagePropertyPanel extends JPanel{
 
-    private MainFrame mainFrame;
+    private Controller controller;
     private JPanel smallBox;
+    public Property currentProperty;
 
-    public ManagePropertyPanel(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
+    public ManagePropertyPanel(Controller controller) {
+        this.controller = controller;
+        currentProperty = controller.getCurrentProperty();
         setLayout(null);
         setBackground(Style.BG);
 
@@ -33,12 +38,8 @@ public class ManagePropertyPanel extends JPanel{
         add(b3);
         add(b4);
 
-        JButton submit = Style.createButton("Submit",
-                630, 500, 100, 40, e -> mainFrame.showScreen("Menu"));
-        add(submit);
-
         JButton back = Style.createButton("Back",
-                750, 500, 100, 40, e -> mainFrame.showScreen("Menu"));
+                750, 500, 100, 40, e -> controller.switchScreen("Menu"));
         add(back);
 
         smallBox = new JPanel();
@@ -73,6 +74,13 @@ public class ManagePropertyPanel extends JPanel{
         answer.setFont(Style.INPUT_FONT);
         answer.setBounds(285, 10, 200, 50);
 
+        JButton submit = Style.createButton("Submit",
+                350, 300, 100, 40, e -> {
+                controller.manageChangeName(currentProperty.getName(), answer.getText());
+                });
+
+        smallBox.add(submit);
+
         smallBox.add(label);
         smallBox.add(answer);
 
@@ -92,6 +100,13 @@ public class ManagePropertyPanel extends JPanel{
         JTextField answer = new JTextField();
         answer.setFont(Style.INPUT_FONT);
         answer.setBounds(285, 10, 200, 50);
+
+        JButton submit = Style.createButton("Submit",
+                350, 300, 100, 40, e -> {
+                controller.manageUpdatePrice(currentProperty.getName(), answer.getText());
+                });
+
+        smallBox.add(submit);
 
         smallBox.add(label);
         smallBox.add(answer);
@@ -117,6 +132,13 @@ public class ManagePropertyPanel extends JPanel{
         answer.setFont(Style.INPUT_FONT);
         answer.setBounds(285, 60, 200, 50);
 
+        JButton submit = Style.createButton("Submit",
+                350, 300, 100, 40, e -> {
+                controller.manageRemoveReservation(currentProperty.getName(), answer.getText());
+                });
+
+        smallBox.add(submit);
+
         smallBox.add(title);
         smallBox.add(label);
         smallBox.add(answer);
@@ -132,15 +154,27 @@ public class ManagePropertyPanel extends JPanel{
 
         JLabel label = new JLabel("Are you sure to the delete property?", SwingConstants.CENTER);
         label.setFont(Style.LABEL_FONT);
-        label.setBounds(0, 10, 350, 50);
+        label.setBounds(30, 10, 370, 50);
+
+        JButton yes = Style.createButton("Yes",
+                100, 120, 100, 40, e -> controller.manageRemoveProperty(currentProperty.getName()));
+
+        JButton no = Style.createButton("No",
+                270, 120, 100, 40, e -> {
+                smallBox.removeAll();
+                smallBox.revalidate();
+                smallBox.repaint();
+                });
+
+        smallBox.add(yes);
+        smallBox.add(no);
+
 
         smallBox.add(label);
 
         smallBox.revalidate();
         smallBox.repaint();
-
     }
-
 
 
 }

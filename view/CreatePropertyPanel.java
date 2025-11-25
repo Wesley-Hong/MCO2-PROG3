@@ -56,7 +56,13 @@ public class CreatePropertyPanel extends JPanel {
 
         // -- Buttons --
         JButton submit = Style.createButton("Submit",
-                630, 500, 100, 40, e -> mainFrame.showScreen("Menu"));
+                630, 500, 100, 40, e -> {
+                String name = nameField.getText();
+                String type = (String) typeBox.getSelectedItem();
+                mainFrame.getController().createProperty(name, type);
+                nameField.setText("");
+                typeBox.setSelectedIndex(0);
+                });
         add(submit);
 
         JButton back = Style.createButton("Back",

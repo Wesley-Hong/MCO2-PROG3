@@ -24,11 +24,16 @@ public class MainFrame extends JFrame {
         mainContainer.setLayout(cardLayout);
         mainContainer.setBackground(Style.BG);
 
-        // 4 main screen
         mainContainer.add(new MainMenuPanel(controller), "Menu");
+
+        // 4 main screen
         mainContainer.add(new CreatePropertyPanel(this), "Create");
         mainContainer.add(new ViewPropertyPanel(this), "View");
-        mainContainer.add(new ManagePropertyPanel(this), "Manage");
+        mainContainer.add(new ManagePropertyPanel(controller), "Manage");
+
+        // sub screen
+        mainContainer.add(new ChoosePropertyViewPanel(controller), "Choose");
+        mainContainer.add(new ChoosePropertyManagePanel(controller), "Choosing");
         mainContainer.add(new CalendarPanel(this), "Calendar");
         add(mainContainer);
         setVisible(true);

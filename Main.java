@@ -1,8 +1,12 @@
-
-import controller.Controller;
+import model.*;
+import view.*;
+import controller.*;
 
 public class Main {
     public static void main(String[] args) {
-        new Controller();
+        PropertyManagement model = new PropertyManagement();
+        Controller controller = new Controller(model);
+        MainFrame mainFrame = new MainFrame(controller);
+        controller.setMainFrame(mainFrame);
     }
 }
