@@ -3,10 +3,20 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel for creating property
+ * User type the property name and choose property type
+ */
+
 public class CreatePropertyPanel extends JPanel {
 
     private MainFrame mainFrame;
 
+    /**
+     * Constructor for property creation
+     * @param mainFrame the main application frame used for screen navigation
+     *                  and controller access
+     */
     public CreatePropertyPanel(MainFrame mainFrame) {
         this.mainFrame = mainFrame;
         setLayout(null);
@@ -18,7 +28,7 @@ public class CreatePropertyPanel extends JPanel {
         label.setBounds(0, 0, 900, 80);
         add(label);
 
-        // -- Form Area --
+        // Form Area
         JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 20));
         formPanel.setBounds(100, 150, 400, 100);
         formPanel.setBackground(Style.BG);
@@ -40,7 +50,7 @@ public class CreatePropertyPanel extends JPanel {
         formPanel.add(typeBox);
         add(formPanel);
 
-        // -- Notes Area --
+        // Note Area
         JTextArea notes = new JTextArea(
                 "Price Rate: \n" +
                         "Eco-Apartment: Base Price \n" +
@@ -51,10 +61,10 @@ public class CreatePropertyPanel extends JPanel {
         notes.setBackground(Style.BG);
         notes.setFont(Style.LABEL_FONT);
         notes.setBounds(100, 300, 400, 150);
-        notes.setEditable(false); // Make it read-only
+        notes.setEditable(false);
         add(notes);
 
-        // -- Buttons --
+        // Buttons
         JButton submit = Style.createButton("Submit",
                 630, 500, 100, 40, e -> {
                 String name = nameField.getText();

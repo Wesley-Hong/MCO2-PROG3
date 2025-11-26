@@ -275,6 +275,20 @@ public class Controller {
         return model.getReservationInformation(currentProperty.getName());
     }
 
+    public void manageEnvironmentModifier(String name, int date, double modifier) {
+        try {
+            if (model.setEnvironmentalModifier(name, date, modifier)) {
+                JOptionPane.showMessageDialog(mainFrame, "Date " + date + " is " + modifier + " * base price");
+                mainFrame.showScreen("Menu");
+            } else {
+                JOptionPane.showMessageDialog(mainFrame, "Error: Invalid date number.");
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(mainFrame, "Error: Invalid number format.");
+        }
+
+    }
+
 
     // Check if properties exist
     public boolean hasProperties() {

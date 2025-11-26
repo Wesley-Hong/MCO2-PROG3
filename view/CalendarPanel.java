@@ -103,7 +103,7 @@ public class CalendarPanel extends JPanel {
                 bottomRight.setOpaque(false);
 
                 // format price
-                JLabel priceLabel = new JLabel(String.format("₱%.0f", price));
+                JLabel priceLabel = new JLabel(String.format("₱%.0f", day.getPrice()));
                 priceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
                 bottomRight.add(priceLabel);

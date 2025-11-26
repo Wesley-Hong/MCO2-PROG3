@@ -1,12 +1,17 @@
 package model;
 
 public class SustainableHouse extends Property {
+    private static final double PRICE_MULTIPLIER = 1.2;
+
     public SustainableHouse(String name) {
         super(name);
-        // 1500 * 1.2 = 1800.0
-        basePrice = 1800.0;
-        for (Day d : days) {
-            d.setPrice(basePrice);
-        }
+
+        super.updateBasePrice(getBasePrice() * PRICE_MULTIPLIER);
+    }
+
+    @Override
+    public boolean updateBasePrice(double newPrice) {
+
+        return super.updateBasePrice(newPrice * PRICE_MULTIPLIER);
     }
 }

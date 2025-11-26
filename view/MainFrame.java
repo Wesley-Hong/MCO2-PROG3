@@ -4,6 +4,11 @@ import controller.Controller;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The main window for Green Property Exchange
+ * It manages primary frame and navigating different panels
+ */
+
 public class MainFrame extends JFrame {
 
     private CardLayout cardLayout = new CardLayout();
@@ -11,6 +16,11 @@ public class MainFrame extends JFrame {
 
     private Controller controller;
 
+    /**
+     * Constructor for main application frame
+     * Initialize all panels
+     * @param controller the main controller that handles business logic
+     */
     public MainFrame(Controller controller) {
 
         // window size
@@ -48,12 +58,19 @@ public class MainFrame extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Switches the visible screen to the specified panel
+     * @param screenName the name of the panel to display
+     */
     public void showScreen(String screenName) {
         cardLayout.show(mainContainer, screenName);
     }
 
+    /**
+     * Returns the controller associated with this main frame
+     * @return the main controller handling application logic
+     */
     public Controller getController() {
         return controller;
     }
-
 }

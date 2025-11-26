@@ -1,8 +1,13 @@
 package view;
 
 import controller.Controller;
-
 import javax.swing.*;
+
+/**
+ * Panel for choosing property to view
+ * It displays the set of property names and its corresponding
+ * property type
+ */
 
 public class ChoosePropertyViewPanel extends JPanel {
 
@@ -10,6 +15,11 @@ public class ChoosePropertyViewPanel extends JPanel {
     private JList<String> propertyList;
     private JTextField nameField;
 
+    /**
+     * Constructor for choosing property for view property
+     * @param controller the main application controller that handles
+     *                       screen navigation and business logic
+     */
     public ChoosePropertyViewPanel(Controller controller) {
         this.controller = controller;
         setLayout(null);
@@ -35,7 +45,6 @@ public class ChoosePropertyViewPanel extends JPanel {
         propertyList = new JList<>();
         propertyList.setFont(Style.INPUT_FONT);
 
-        // Add listener: When user clicks a name in the list, put it in the text field
         propertyList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String selected = propertyList.getSelectedValue();
@@ -54,10 +63,11 @@ public class ChoosePropertyViewPanel extends JPanel {
                 630, 500, 100, 40, e -> {
                 String selected = nameField.getText();
                 if (selected != null && !selected.isEmpty()) {
+                    // selected property
                     String name = extractPropertyName(selected);
                     controller.setSelectedProperty(name);
                     controller.switchScreen("View");
-                } else {
+                } else { // no property selected
                     JOptionPane.showMessageDialog(this, "Please select a property first.");
                 }
         });
@@ -69,6 +79,10 @@ public class ChoosePropertyViewPanel extends JPanel {
 
     }
 
+    /**
+     * Refresh the property list with data from controller
+     * Updates the JList component with lastest available property names
+     */
     public void refreshList() {
         if (controller != null) {
             String[] names = controller.getPropertyNames();
@@ -76,6 +90,11 @@ public class ChoosePropertyViewPanel extends JPanel {
         }
     }
 
+    /**
+     * Override setVisible to refresh the property list
+     * @param visible  true to make the component visible; false to
+     *          make it invisible
+     */
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
@@ -84,6 +103,11 @@ public class ChoosePropertyViewPanel extends JPanel {
         }
     }
 
+    /**
+     * Extract property name from formatted string
+     * @param fullText the formatted string
+     * @return the property name only
+     */
     private String extractPropertyName(String fullText) {
         int parenIndex = fullText.indexOf('(');
         if (parenIndex > 0) {

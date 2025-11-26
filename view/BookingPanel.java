@@ -2,9 +2,13 @@ package view;
 
 import controller.Controller;
 import model.Property;
-
 import javax.swing.*;
 import java.awt.*;
+
+/**
+ * Panel for simulating bookings to the chosen property
+ * Let user input guest name, check in / out dates
+ */
 
 public class BookingPanel extends JPanel {
 
@@ -13,6 +17,11 @@ public class BookingPanel extends JPanel {
     private JTextField checkInField;
     private JTextField checkOutField;
 
+    /**
+     * Constructor for booking the chosen property
+     * @param controller the main application controller that handles
+     *                       screen navigation and business logic
+     */
     public BookingPanel(Controller controller) {
         this.controller = controller;
         setLayout(null);
@@ -24,7 +33,7 @@ public class BookingPanel extends JPanel {
         label.setBounds(0, 0, 900, 80);
         add(label);
 
-        // name
+        // Guest name
         JLabel guestName = new JLabel("Guest Name: ");
         guestName.setFont(Style.LABEL_FONT);
         guestName.setBounds(30, 100, 220, 40);
@@ -35,7 +44,7 @@ public class BookingPanel extends JPanel {
         guestNameField.setBounds(300, 100, 200, 40);
         add(guestNameField);
 
-        // check in
+        // Check in
         JLabel checkIn = new JLabel("Check in date (1-29): ");
         checkIn.setFont(Style.LABEL_FONT);
         checkIn.setBounds(30, 160, 220, 40);
@@ -46,6 +55,7 @@ public class BookingPanel extends JPanel {
         checkInField.setBounds(300, 160, 200, 40);
         add(checkInField);
 
+        // Check out
         JLabel checkOut = new JLabel("Check out date (2-30): ");
         checkOut.setFont(Style.LABEL_FONT);
         checkOut.setBounds(30, 220, 220, 40);
@@ -66,6 +76,11 @@ public class BookingPanel extends JPanel {
 
     }
 
+    /**
+     * Override setVisible to clear input fields
+     * @param visible  true to make the component visible; false to
+     *          make it invisible
+     */
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
@@ -74,6 +89,9 @@ public class BookingPanel extends JPanel {
         }
     }
 
+    /**
+     * Validates input data and creates a booking through controller
+     */
     private void createBooking() {
         Property currentProperty = controller.getCurrentProperty();
 
@@ -93,6 +111,7 @@ public class BookingPanel extends JPanel {
             return;
         }
 
+        // check in date validation
         int checkIn;
         try {
             checkIn = Integer.parseInt(checkInStr);
@@ -107,6 +126,7 @@ public class BookingPanel extends JPanel {
             return;
         }
 
+        // check out date validation
         int checkOut;
         try {
             checkOut = Integer.parseInt(checkOutStr);
@@ -121,6 +141,7 @@ public class BookingPanel extends JPanel {
             return;
         }
 
+        // check if checkIn and checkOut is in right order
         if (checkIn >= checkOut) {
             JOptionPane.showMessageDialog(this,
                     "Check-out date must be after check-in date.");
@@ -131,6 +152,9 @@ public class BookingPanel extends JPanel {
         clearFields();
     }
 
+    /**
+     * Clear all input fields
+     */
     private void clearFields() {
         guestNameField.setText("");
         checkInField.setText("");
