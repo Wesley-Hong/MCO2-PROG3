@@ -150,4 +150,26 @@ public class PropertyManagement {
         }
         return property.isDateRangeAvailable(checkIn, checkOut);
     }
+
+    public String getDateInformation(String propertyName, int dateNumber) {
+        Property property = system.findProperty(propertyName);
+
+        if (property == null) {
+            return null;
+        }
+
+        if (dateNumber < 1 || dateNumber > 30) {
+            return null;
+        }
+
+        Day day = property.getDayInfo(dateNumber);
+
+        StringBuilder info = new StringBuilder();
+        info.append("===== Date Information =====\n\n");
+        info.append("Date number: ").append(day.getDateNumber()).append("\n");
+        info.append("Price per night: ₱").append(String.format("%.2f", day.getPrice())).append("\n");
+        info.append("Status: ").append(day.getStatus()).append("\n");
+
+        return info.toString();
+    }
 }

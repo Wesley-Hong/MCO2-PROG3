@@ -41,6 +41,7 @@ public class MainFrame extends JFrame {
         // screen for more property functions
         mainContainer.add(new CalendarPanel(controller), "Calendar");
         mainContainer.add(new PropertySummaryPanel(controller), "Summary");
+        mainContainer.add(new DateInformationPanel(controller), "DayInformation");
         add(mainContainer);
         setVisible(true);
     }

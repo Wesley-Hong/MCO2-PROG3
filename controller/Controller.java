@@ -82,7 +82,33 @@ public class Controller {
     }
 
 
+    public String getDateInformationString(String dateStr) {
+        Property currentProperty = getCurrentProperty();
 
+        if (currentProperty == null) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "No property selected.");
+            return null;
+        }
+
+        // Validate and parse date
+        int dateNumber;
+        try {
+            dateNumber = Integer.parseInt(dateStr.trim());
+            if (dateNumber < 1 || dateNumber > 30) {
+                JOptionPane.showMessageDialog(mainFrame,
+                        "Date must be between 1 and 30.");
+                return null;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "Invalid date format. Please enter a number.");
+            return null;
+        }
+
+        // Get date information string from model
+        return model.getDateInformation(currentProperty.getName(), dateNumber);
+    }
 
 
 
