@@ -1,3 +1,5 @@
+package model;
+
 public class EcoGlamping extends Property {
     public EcoGlamping(String name) {
         super(name);
