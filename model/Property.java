@@ -45,6 +45,7 @@ public abstract class Property {
 
     /**
      * Counts how many days in the property's calendar is available
+     *
      * @return the number of unbooked days
      */
     public int getAvailableDateCount() {
@@ -190,5 +191,9 @@ public abstract class Property {
 
     public Day[] getDays() {
         return days;
+    }
+
+    public String getType() {
+        return this.getClass().getSimpleName();
     }
 }

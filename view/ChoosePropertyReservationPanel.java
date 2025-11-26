@@ -54,10 +54,8 @@ public class ChoosePropertyReservationPanel extends JPanel {
                 630, 500, 100, 40, e -> {
                     String selected = nameField.getText();
                     if (selected != null && !selected.isEmpty()) {
-                        // 1. Tell Controller which property we chose
-                        controller.setSelectedProperty(selected);
-                        // 2. Go to the View Property Screen (Assuming you have one named "View")
-                        // If you don't have a "View" screen yet, change "View" to "Menu" or create one
+                        String name = extractPropertyName(selected);
+                        controller.setSelectedProperty(name);
                         controller.switchScreen("Booking");
                     }
                 });
@@ -83,4 +81,13 @@ public class ChoosePropertyReservationPanel extends JPanel {
             refreshList();
         }
     }
+
+    private String extractPropertyName(String fullText) {
+        int parenIndex = fullText.indexOf('(');
+        if (parenIndex > 0) {
+            return fullText.substring(0, parenIndex).trim();
+        }
+        return fullText.trim();
+    }
+
 }

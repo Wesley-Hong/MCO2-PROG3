@@ -10,11 +10,11 @@ public class ManagePropertyPanel extends JPanel{
 
     private Controller controller;
     private JPanel smallBox;
-    public Property currentProperty;
+
+    private JLabel oldPropertyName;
 
     public ManagePropertyPanel(Controller controller) {
         this.controller = controller;
-        currentProperty = controller.getCurrentProperty();
         setLayout(null);
         setBackground(Style.BG);
 
@@ -66,23 +66,41 @@ public class ManagePropertyPanel extends JPanel{
 
         smallBox.removeAll();
 
+        Property currentProperty = controller.getCurrentProperty();
+
+        JLabel name = new JLabel("Property name: ");
+        name.setFont(Style.LABEL_FONT);
+        name.setBounds(30,10, 280,50);
+        smallBox.add(name);
+
+        oldPropertyName = new JLabel(currentProperty.getName());
+        oldPropertyName.setFont(Style.LABEL_FONT);
+        oldPropertyName.setBounds(285,10, 200,50);
+        smallBox.add(oldPropertyName);
+
         JLabel label = new JLabel("Change property name to:", SwingConstants.CENTER);
         label.setFont(Style.LABEL_FONT);
-        label.setBounds(0, 10, 280, 50);
+        label.setBounds(10, 60, 280, 50);
+        smallBox.add(label);
 
         JTextField answer = new JTextField();
         answer.setFont(Style.INPUT_FONT);
-        answer.setBounds(285, 10, 200, 50);
+        answer.setBounds(285, 60, 200, 50);
+        smallBox.add(answer);
 
         JButton submit = Style.createButton("Submit",
                 350, 300, 100, 40, e -> {
+                String newName = answer.getText().trim();
+                if (newName.isEmpty()) {
+                    JOptionPane.showMessageDialog(this,
+                            "Property name cannot be empty.");
+                    return;
+                }
                 controller.manageChangeName(currentProperty.getName(), answer.getText());
+                oldPropertyName.setText(controller.getCurrentProperty().getName());
                 });
 
         smallBox.add(submit);
-
-        smallBox.add(label);
-        smallBox.add(answer);
 
         smallBox.revalidate();
         smallBox.repaint();
@@ -93,23 +111,44 @@ public class ManagePropertyPanel extends JPanel{
 
         smallBox.removeAll();
 
+        Property currentProperty = controller.getCurrentProperty();
+
+        JLabel name = new JLabel("Current Base Price: ", SwingConstants.CENTER);
+        name.setFont(Style.LABEL_FONT);
+        name.setBounds(0,10, 280,50);
+        smallBox.add(name);
+
+        oldPropertyName = new JLabel(String.format("₱%.2f", currentProperty.getBasePrice()));
+        oldPropertyName.setFont(Style.LABEL_FONT);
+        oldPropertyName.setBounds(285,10, 200,50);
+        smallBox.add(oldPropertyName);
+
         JLabel label = new JLabel("Update Base Price:", SwingConstants.CENTER);
         label.setFont(Style.LABEL_FONT);
-        label.setBounds(0, 10, 280, 50);
+        label.setBounds(0, 60, 280, 50);
+        smallBox.add(label);
 
         JTextField answer = new JTextField();
         answer.setFont(Style.INPUT_FONT);
-        answer.setBounds(285, 10, 200, 50);
+        answer.setBounds(285, 60, 200, 50);
+        smallBox.add(answer);
 
         JButton submit = Style.createButton("Submit",
                 350, 300, 100, 40, e -> {
-                controller.manageUpdatePrice(currentProperty.getName(), answer.getText());
+                String input = answer.getText().trim();
+
+                if (input.isEmpty()) {
+                    JOptionPane.showMessageDialog(this,
+                            "Price cannot be empty.");
+                    return;
+                }
+
+                controller.manageUpdatePrice(currentProperty.getName(), input);
+                answer.setText("");
+
                 });
 
         smallBox.add(submit);
-
-        smallBox.add(label);
-        smallBox.add(answer);
 
         smallBox.revalidate();
         smallBox.repaint();
@@ -120,7 +159,19 @@ public class ManagePropertyPanel extends JPanel{
 
         smallBox.removeAll();
 
-        JLabel title = new JLabel("Total Reservation ##:", SwingConstants.CENTER);
+        Property currentProperty = controller.getCurrentProperty();
+
+        JLabel name = new JLabel("Property name: ");
+        name.setFont(Style.LABEL_FONT);
+        name.setBounds(30,10, 280,50);
+        smallBox.add(name);
+
+        oldPropertyName = new JLabel(currentProperty.getName());
+        oldPropertyName.setFont(Style.LABEL_FONT);
+        oldPropertyName.setBounds(285,10, 200,50);
+        smallBox.add(oldPropertyName);
+
+        JLabel title = new JLabel("Total Reservation #:", SwingConstants.CENTER);
         title.setFont(Style.LABEL_FONT);
         title.setBounds(0, 10, 280, 50);
 
@@ -134,7 +185,7 @@ public class ManagePropertyPanel extends JPanel{
 
         JButton submit = Style.createButton("Submit",
                 350, 300, 100, 40, e -> {
-                controller.manageRemoveReservation(currentProperty.getName(), answer.getText());
+                //controller.manageRemoveReservation(currentProperty.getName(), answer.getText());
                 });
 
         smallBox.add(submit);
@@ -152,15 +203,30 @@ public class ManagePropertyPanel extends JPanel{
 
         smallBox.removeAll();
 
+        Property currentProperty = controller.getCurrentProperty();
+
+        JLabel name = new JLabel("Property name: ");
+        name.setFont(Style.LABEL_FONT);
+        name.setBounds(30,10, 280,50);
+        smallBox.add(name);
+
+        oldPropertyName = new JLabel(currentProperty.getName());
+        oldPropertyName.setFont(Style.LABEL_FONT);
+        oldPropertyName.setBounds(285,10, 200,50);
+        smallBox.add(oldPropertyName);
+
         JLabel label = new JLabel("Are you sure to the delete property?", SwingConstants.CENTER);
         label.setFont(Style.LABEL_FONT);
-        label.setBounds(30, 10, 370, 50);
+        label.setBounds(30, 60, 370, 50);
 
         JButton yes = Style.createButton("Yes",
-                100, 120, 100, 40, e -> controller.manageRemoveProperty(currentProperty.getName()));
+                100, 180, 100, 40, e -> {
+
+                });
 
         JButton no = Style.createButton("No",
-                270, 120, 100, 40, e -> {
+                270, 180, 100, 40, e -> {
+                controller.manageRemoveProperty(currentProperty.getName());
                 smallBox.removeAll();
                 smallBox.revalidate();
                 smallBox.repaint();
@@ -168,7 +234,6 @@ public class ManagePropertyPanel extends JPanel{
 
         smallBox.add(yes);
         smallBox.add(no);
-
 
         smallBox.add(label);
 

@@ -2,6 +2,7 @@ package controller;
 
 import model.Property;
 import model.PropertyManagement;
+import model.Reservation;
 import view.MainFrame;
 
 import javax.swing.*;
@@ -11,8 +12,7 @@ public class Controller {
 
     private MainFrame mainFrame; // Renamed for clarity
     private PropertyManagement model;
-
-    private String currentPropertyName = null;
+    private Property currentProperty;
 
     // 1. Constructor only takes the Model initially
     public Controller(PropertyManagement model) {
@@ -39,19 +39,12 @@ public class Controller {
         return model.getFullInformation();
     }
 
-    public void setSelectedProperty(String name) {
-        this.currentPropertyName = name;
-        System.out.println("Selected Property: " + name);
-    }
-
-    public Property getCurrentProperty() {
-        if (currentPropertyName == null) return null;
-        return model.getProperty(currentPropertyName);
-    }
 
     // create property
     public void createProperty (String inputName, String typeString) {
+
         String name = inputName.trim();
+
 
         if (name.isEmpty()) {
             JOptionPane.showMessageDialog(mainFrame, "Error: Property name cannot by empty.");
@@ -78,6 +71,20 @@ public class Controller {
             JOptionPane.showMessageDialog(mainFrame, "Error: Name already exists.");
         }
     }
+
+    // view property
+    public void setSelectedProperty(String propertyName) {
+        currentProperty = model.findPropertyByName(propertyName);
+    }
+
+    public Property getCurrentProperty() {
+        return currentProperty;
+    }
+
+
+
+
+
 
 
     // new need fix code (too ai)
@@ -135,6 +142,55 @@ public class Controller {
             JOptionPane.showMessageDialog(mainFrame, "Error: Cannot delete (Active reservations or not found).");
         }
     }
+
+    public void createBooking (String guestName, int checkIn, int checkOut) {
+        Property currentProperty = getCurrentProperty();
+
+        if (currentProperty == null) {
+            JOptionPane.showMessageDialog(mainFrame, "No property selected");
+            return;
+        }
+
+        if (guestName == null || guestName.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "Guest name should not be empty. Please try again.");
+            return;
+        }
+
+        if (!model.isDateRangeAvailable(currentProperty.getName(), checkIn, checkOut)) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "Booking failed: invalid or unavailable dates.");
+            return;
+        }
+
+        Reservation reservation = model.createBooking(
+                currentProperty.getName(), guestName, checkIn, checkOut);
+
+        if (reservation != null) {
+            // Show success message with booking details
+            String message = String.format(
+                    "Booking successful for %s\n\n" +
+                            "Check-in: Day %d\n" +
+                            "Check-out: Day %d\n" +
+                            "Total: ₱%.2f\n\n" +
+                            "Price Breakdown:\n%s",
+                    reservation.getGuestName(),
+                    checkIn,
+                    checkOut,
+                    reservation.getTotalPrice(),
+                    reservation.getPriceBreakdownString()
+            );
+            JOptionPane.showMessageDialog(mainFrame, message);
+
+            // Return to View screen
+            mainFrame.showScreen("Menu");
+        } else {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "Booking failed: Could not create reservation.");
+        }
+    }
+
+
 
     // Check if properties exist
     public boolean hasProperties() {

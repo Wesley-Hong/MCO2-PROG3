@@ -10,19 +10,20 @@ public class PropertyManagement {
         this.system = new PropertySystem();
     }
 
-    // validating property name
+    // create property
     public boolean createProperty(String name, int type) {
         if (name == null || name.isEmpty()) {
             return false;
         }
-
         return system.createProperty(name, type);
     }
 
-    // choosing property
+    // choose property - for view property
     public String[] getPropertyNames() {
-        List<Property> properties =system.getAllProperties();
+        List<Property> properties = system.getAllProperties();
         String[] nameAndType = new String[properties.size()];
+
+        // loop through all properties
         for (int i = 0; i < properties.size(); i++) {
             Property p = properties.get(i);
             String type = p.getClass().getSimpleName();
@@ -30,6 +31,46 @@ public class PropertyManagement {
         }
         return nameAndType;
     }
+
+    public Property findPropertyByName(String name) {
+        List<Property> properties = system.getAllProperties();
+        for (Property p : properties) {
+            if (p.getName().equals(name)) {
+                return p;
+            }
+        }
+        return null;
+
+    }
+
+
+
+
+    // choose property - for manage property
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // validating property name
+
+    // choosing property
+
 
     public String[] getFullInformation() {
         List<Property> properties =system.getAllProperties();
@@ -84,5 +125,29 @@ public class PropertyManagement {
         return p.removeReservation(res);
     }
 
+    public Reservation createBooking (String propertyName, String guestName, int checkIn, int checkOut) {
 
+        Property property = system.findProperty(propertyName);
+
+        if (property == null) {
+            return null;
+        }
+
+        if (guestName == null || guestName.trim().isEmpty()) {
+            return null;
+        }
+
+        return property.createBooking(guestName, checkIn, checkOut);
+
+
+    }
+
+    public boolean isDateRangeAvailable (String propertyName, int checkIn, int checkOut) {
+        Property property = system.findProperty(propertyName);
+
+        if (property == null) {
+            return false;
+        }
+        return property.isDateRangeAvailable(checkIn, checkOut);
+    }
 }

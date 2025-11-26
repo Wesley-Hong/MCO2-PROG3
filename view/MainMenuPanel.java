@@ -2,7 +2,6 @@ package view;
 
 import controller.Controller;
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class MainMenuPanel extends JPanel {
 
@@ -18,7 +17,7 @@ public class MainMenuPanel extends JPanel {
         label.setBounds(0, 0, 900, 80);
         add(label);
 
-        // Now we link the buttons to the real screens
+        // Four main buttons
         JButton b1 = Style.createButton("Create Property",
                 340, 100, 220, 60, e -> controller.switchScreen("Create"));
         JButton b2 = Style.createButton("View Property",
@@ -32,7 +31,6 @@ public class MainMenuPanel extends JPanel {
         add(b2);
         add(b3);
         add(b4);
-
     }
 
 }
