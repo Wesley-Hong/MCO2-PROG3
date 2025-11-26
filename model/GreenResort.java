@@ -1,3 +1,5 @@
+package model;
+
 public class GreenResort extends Property {
     public GreenResort(String name) {
         super(name);
