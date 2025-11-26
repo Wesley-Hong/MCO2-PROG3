@@ -45,7 +45,6 @@ public abstract class Property {
 
     /**
      * Counts how many days in the property's calendar is available
-     *
      * @return the number of unbooked days
      */
     public int getAvailableDateCount() {
@@ -96,6 +95,12 @@ public abstract class Property {
 
     // ---------- Manage Property Methods ----------
 
+    /**
+     * Change the name of property while ensuring uniqueness
+     * @param newName new name of property
+     * @param system check whole property to see if unique
+     * @return true -> success; false -> otherwise
+     */
     public boolean setName(String newName, PropertySystem system) {
         if (newName == null || newName.isEmpty()) return false;
         if (newName.equals(this.name)) return true; 
@@ -104,6 +109,11 @@ public abstract class Property {
         return true;
     }
 
+    /**
+     * Update base price of property
+     * @param newPrice new base price
+     * @return true -> success; false -> otherwise
+     */
     public boolean updateBasePrice(double newPrice) {
         if (!reservations.isEmpty()) return false;
         if (newPrice < 100.0) return false;
@@ -112,6 +122,11 @@ public abstract class Property {
         return true;
     }
 
+    /**
+     * Remove reservation from property
+     * @param res reservation object to remove
+     * @return true -> success; false -> otherwise
+     */
     public boolean removeReservation(Reservation res) {
         if (res == null) return false;
         boolean removed = reservations.remove(res);
@@ -126,7 +141,10 @@ public abstract class Property {
     }
 
     /**
-     * Applies a pricing modifier to a specific day.
+     * Applies a pricing modifier to a specific day
+     * @param dateNumber date to modify
+     * @param modifier modifier value
+     * @return true -> success; false -> otherwise
      */
     public boolean setEnvironmentalDayModifier(int dateNumber, double modifier) {
         if (dateNumber < 1 || dateNumber > 30) return false;
@@ -145,6 +163,12 @@ public abstract class Property {
 
     // ---------- Booking / Simulation Methods ----------
 
+    /**
+     * Check date range information
+     * @param checkIn check in date
+     * @param checkOut check out date
+     * @return true -> success; false -> otherwise
+     */
     public boolean isDateRangeAvailable(int checkIn, int checkOut) {
         if (checkIn < 1 || checkIn > 29) return false;
         if (checkOut < 2 || checkOut > 30) return false;
@@ -156,6 +180,13 @@ public abstract class Property {
         return true;
     }
 
+    /**
+     * Creates booking reservation for the property
+     * @param guestName guest name
+     * @param checkIn check in date
+     * @param checkOut check out date
+     * @return true -> success; false -> otherwise
+     */
     public Reservation createBooking(String guestName, int checkIn, int checkOut) {
         if (!isDateRangeAvailable(checkIn, checkOut)) return null;
 

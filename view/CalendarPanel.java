@@ -3,15 +3,22 @@ package view;
 import controller.Controller;
 import model.Day;
 import model.Property;
-
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel for Calendar it shows the price per night and environment impact price
+ */
 public class CalendarPanel extends JPanel {
 
     private Controller controller;
     private JPanel grid;
 
+    /**
+     * Constructor for calendar display
+     * @param controller the main application controller that handles
+     *                     screen navigation and business logic
+     */
     public CalendarPanel(Controller controller) {
         this.controller = controller;
         setLayout(null);
@@ -35,7 +42,7 @@ public class CalendarPanel extends JPanel {
             label1.setFont(new Font("Arial", Font.BOLD, 18));
             label1.setOpaque(true);
 
-            label1.setBackground(Color.YELLOW);
+            label1.setBackground(Color.decode("#5A77E0"));
 
             label1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
             dayHeader.add(label1);
@@ -48,11 +55,64 @@ public class CalendarPanel extends JPanel {
         grid.setBackground(Color.decode("#68BA7F"));
         add(grid);
 
+        // Legend panel
+        JPanel legend = new JPanel();
+        legend.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+        legend.setBounds(30, 495, 700, 40);  // Moved left (30 instead of 50)
+        legend.setBackground(Style.BG);
+
+        // Green box
+        JPanel greenBox = new JPanel();
+        greenBox.setPreferredSize(new Dimension(15, 15));  // Smaller box
+        greenBox.setBackground(Color.decode("#90EE90"));
+        greenBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        legend.add(greenBox);
+        JLabel greenLabel = new JLabel("Eco-Friendly (80-99%)");
+        greenLabel.setFont(new Font("Arial", Font.PLAIN, 11));  // Smaller font
+        legend.add(greenLabel);
+
+        // White box
+        JPanel whiteBox = new JPanel();
+        whiteBox.setPreferredSize(new Dimension(15, 15));
+        whiteBox.setBackground(Color.WHITE);
+        whiteBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        legend.add(whiteBox);
+        JLabel whiteLabel = new JLabel("Standard (100%)");
+        whiteLabel.setFont(new Font("Arial", Font.PLAIN, 11));
+        legend.add(whiteLabel);
+
+        // Yellow box
+        JPanel yellowBox = new JPanel();
+        yellowBox.setPreferredSize(new Dimension(15, 15));
+        yellowBox.setBackground(Color.YELLOW);
+        yellowBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        legend.add(yellowBox);
+        JLabel yellowLabel = new JLabel("High Impact (101-120%)");
+        yellowLabel.setFont(new Font("Arial", Font.PLAIN, 11));
+        legend.add(yellowLabel);
+
+        // Red box
+        JPanel redBox = new JPanel();
+        redBox.setPreferredSize(new Dimension(15, 15));
+        redBox.setBackground(Color.decode("#FFCCCC"));
+        redBox.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        legend.add(redBox);
+        JLabel redLabel = new JLabel("Booked");
+        redLabel.setFont(new Font("Arial", Font.PLAIN, 11));
+        legend.add(redLabel);
+
+        add(legend);
+
         JButton back = Style.createButton("Back",
                 750, 500, 100, 40, e -> controller.switchScreen("View"));
         add(back);
     }
 
+    /**
+     * Overrides setVisible and updates the calendar when there is changes
+     * @param visible  true to make the component visible; false to
+     *          make it invisible
+     */
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
@@ -61,12 +121,16 @@ public class CalendarPanel extends JPanel {
         }
     }
 
+    /**
+     * Updates the calendar information when there is changes
+     */
     private void updateCalendar() {
+
         grid.removeAll();
 
         Property currentProperty = controller.getCurrentProperty();
-
         Day[] days = currentProperty.getDays();
+        double basePrice = currentProperty.getBasePrice();
 
         for (int i = 1; i <= 35; i++) {
             JPanel cell = new JPanel(new BorderLayout());
@@ -76,11 +140,21 @@ public class CalendarPanel extends JPanel {
 
             if (i <= 30) {
                 Day day = days[i - 1];
-                double price = currentProperty.getBasePrice();
                 boolean isBooked = day.isBooked();
+                double dayPrice = day.getPrice();
 
+                // Calculate price modifier
+                double priceModifier = dayPrice / basePrice;
+
+                // Set background color based on booking status and price modifier
                 if (isBooked) {
                     cell.setBackground(Color.decode("#FFCCCC"));
+                } else if (priceModifier < 1.0) {
+                    cell.setBackground(Color.decode("#90EE90"));
+                } else if (priceModifier > 1.0) {
+                    cell.setBackground(Color.YELLOW);
+                } else {
+                    cell.setBackground(Color.WHITE);
                 }
 
                 // top left day number
@@ -103,7 +177,7 @@ public class CalendarPanel extends JPanel {
                 bottomRight.setOpaque(false);
 
                 // format price
-                JLabel priceLabel = new JLabel(String.format("₱%.0f", day.getPrice()));
+                JLabel priceLabel = new JLabel(String.format("₱%.0f", dayPrice));
                 priceLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
                 bottomRight.add(priceLabel);
@@ -117,9 +191,5 @@ public class CalendarPanel extends JPanel {
         }
         grid.revalidate();
         grid.repaint();
-
     }
-
-
-
 }

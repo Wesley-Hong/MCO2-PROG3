@@ -1,17 +1,27 @@
 package model;
 
+/**
+ * Extends property class and add 1.35 multiplier to base price
+ */
 public class GreenResort extends Property {
     private static final double PRICE_MULTIPLIER = 1.35;
 
+    /**
+     * Constructor for new Green Resort Property
+     * @param name property name
+     */
     public GreenResort(String name) {
         super(name);
-        // Apply multiplier to default base price (1500 * 1.35 = 2025.0)
         super.updateBasePrice(getBasePrice() * PRICE_MULTIPLIER);
     }
 
+    /**
+     * Updates the base price of the property
+     * @param newPrice new base price
+     * @return true -> successfully changed, false -> otherwise
+     */
     @Override
     public boolean updateBasePrice(double newPrice) {
-        // When updating price, always apply the multiplier
         return super.updateBasePrice(newPrice * PRICE_MULTIPLIER);
     }
 }

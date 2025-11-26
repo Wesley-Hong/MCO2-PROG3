@@ -1,10 +1,12 @@
 package view;
 
 import controller.Controller;
-
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel for getting information on specific date range
+ */
 public class DateRangePanel extends JPanel {
 
     private Controller controller;
@@ -13,6 +15,11 @@ public class DateRangePanel extends JPanel {
     private JPanel displayBox;
     private JTextArea infoTextArea;
 
+    /**
+     * Constructor for making date range panel
+     * @param controller the main application controller that handles
+     *                         screen navigation and business logic
+     */
     public DateRangePanel(Controller controller) {
         this.controller = controller;
         setLayout(null);
@@ -46,7 +53,7 @@ public class DateRangePanel extends JPanel {
         endDateField.setBounds(250, 160, 100, 40);
         add(endDateField);
 
-// Enter button
+        // Enter button
         JButton enter = Style.createButton("Enter",
                 380, 130, 100, 40, e -> showDateRange());
         add(enter);
@@ -73,6 +80,11 @@ public class DateRangePanel extends JPanel {
 
     }
 
+    /**
+     * Overrides setVisible method to reset input fields
+     * @param visible  true to make the component visible; false to
+     *          make it invisible
+     */
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
@@ -83,6 +95,9 @@ public class DateRangePanel extends JPanel {
         }
     }
 
+    /**
+     * Display the result
+     */
     private void showDateRange() {
         String startStr = startDateField.getText().trim();
         String endStr = endDateField.getText().trim();
@@ -103,11 +118,11 @@ public class DateRangePanel extends JPanel {
         }
     }
 
+    /**
+     * Clears the display by removing any previously show info
+     */
     private void clearDisplay() {
         infoTextArea.setText("");
     }
-
-
-
 
 }

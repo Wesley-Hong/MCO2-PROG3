@@ -2,9 +2,11 @@ package view;
 
 import controller.Controller;
 import model.Property;
-
 import javax.swing.*;
 
+/**
+ * Panel for showing the property summary info
+ */
 public class PropertySummaryPanel extends JPanel {
 
     private Controller controller;
@@ -13,6 +15,11 @@ public class PropertySummaryPanel extends JPanel {
     private JTextField dateField;
     private JTextField earningField;
 
+    /**
+     * Constructor for showing property summary info
+     * @param controller the main application controller that handles
+     *                       screen navigation and business logic
+     */
     public PropertySummaryPanel(Controller controller) {
         this.controller = controller;
         setLayout(null);
@@ -78,6 +85,11 @@ public class PropertySummaryPanel extends JPanel {
 
     }
 
+    /**
+     * Override setVisible to show updates on info
+     * @param visible  true to make the component visible; false to
+     *          make it invisible
+     */
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
@@ -86,6 +98,9 @@ public class PropertySummaryPanel extends JPanel {
         }
     }
 
+    /**
+     * Update all summary fields with current property
+     */
     private void updateSummary() {
         Property currentProperty = controller.getCurrentProperty();
         propertyNameField.setText(currentProperty.getName());

@@ -1,17 +1,27 @@
 package model;
 
+/**
+ * Extends property class and add 1.5 multiplier to base price
+ */
 public class EcoGlamping extends Property {
     private static final double PRICE_MULTIPLIER = 1.5;
 
+    /**
+     * Constructor for new Eco Glamping Property
+     * @param name property name
+     */
     public EcoGlamping(String name) {
         super(name);
-        // Apply multiplier to default base price (1500 * 1.5 = 2250.0)
         super.updateBasePrice(getBasePrice() * PRICE_MULTIPLIER);
     }
 
+    /**
+     * Updates the base price of the property
+     * @param newPrice new base price
+     * @return true -> successfully changed, false -> otherwise
+     */
     @Override
     public boolean updateBasePrice(double newPrice) {
-        // When updating price, always apply the multiplier
         return super.updateBasePrice(newPrice * PRICE_MULTIPLIER);
     }
 }

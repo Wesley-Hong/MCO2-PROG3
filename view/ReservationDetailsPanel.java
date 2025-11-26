@@ -1,10 +1,12 @@
 package view;
 
 import controller.Controller;
-
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel for viewing all reservation details of specific property
+ */
 public class ReservationDetailsPanel extends JPanel {
 
     private Controller controller;
@@ -12,6 +14,11 @@ public class ReservationDetailsPanel extends JPanel {
     private JTextArea infoTextArea;
     private JScrollPane scrollPane;
 
+    /**
+     * Constructor for viewing the reservation details
+     * @param controller the main application controller that handles
+     *                       screen navigation and business logic
+     */
     public ReservationDetailsPanel(Controller controller) {
         this.controller = controller;
         setLayout(null);
@@ -39,7 +46,7 @@ public class ReservationDetailsPanel extends JPanel {
         infoTextArea.setLineWrap(true);
         infoTextArea.setWrapStyleWord(true);
 
-        // Add scroll pane
+        // Adding scroll pane
         scrollPane = new JScrollPane(infoTextArea);
         scrollPane.setBounds(10, 10, 780, 340);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -51,6 +58,11 @@ public class ReservationDetailsPanel extends JPanel {
         add(back);
     }
 
+    /**
+     * Overrides the setVisible method to load reservation details
+     * @param visible  true to make the component visible; false to
+     *          make it invisible
+     */
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
@@ -59,6 +71,9 @@ public class ReservationDetailsPanel extends JPanel {
         }
     }
 
+    /**
+     * Loads reservation details
+     */
     private void loadReservationDetails() {
         String info = controller.getReservationDetails();
 

@@ -1,10 +1,12 @@
 package view;
 
 import controller.Controller;
-
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel for displaying date information
+ */
 public class DateInformationPanel extends JPanel {
 
     private Controller controller;
@@ -12,6 +14,11 @@ public class DateInformationPanel extends JPanel {
     private JPanel displayBox;
     private JTextField displayInfo;
 
+    /**
+     * Constructor for displaying date information
+     * @param controller the main application controller that handles
+     *                   screen navigation and business logic
+     */
     public DateInformationPanel(Controller controller) {
         this.controller = controller;
         setLayout(null);
@@ -26,16 +33,16 @@ public class DateInformationPanel extends JPanel {
         // Input section
         JLabel label1 = new JLabel("Enter date: (1-30): ");
         label1.setFont(Style.LABEL_FONT);
-        label1.setBounds(30, 100, 100, 40);
+        label1.setBounds(30, 100, 200, 40);
         add(label1);
 
         answer = new JTextField();
         answer.setFont(Style.INPUT_FONT);
-        answer.setBounds(130, 100, 100, 40);
+        answer.setBounds(230, 100, 40, 40);
         add(answer);
 
         JButton enter = Style.createButton("Enter",
-                270, 100, 100, 40, e -> showDateInfo());
+                280, 100, 100, 40, e -> showDateInfo());
         add(enter);
 
         // Display box
@@ -58,6 +65,11 @@ public class DateInformationPanel extends JPanel {
         add(back);
     }
 
+    /**
+     * Overrides setVisible to rest input field
+     * @param visible  true to make the component visible; false to
+     *          make it invisible
+     */
     @Override
     public void setVisible(boolean visible) {
         super.setVisible(visible);
@@ -67,6 +79,9 @@ public class DateInformationPanel extends JPanel {
         }
     }
 
+    /**
+     * Processing the input data
+     */
     private void showDateInfo() {
         String dateStr = answer.getText().trim();
 
@@ -85,14 +100,13 @@ public class DateInformationPanel extends JPanel {
             displayInfo.setText("Error: Could not retrieve date information.");
         }
 
-
-
     }
 
+    /**
+     * Clear the display
+     */
     private void clearDisplay() {
         displayInfo.setText("");
     }
-
-
 
 }

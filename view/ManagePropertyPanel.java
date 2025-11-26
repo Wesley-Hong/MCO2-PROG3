@@ -198,10 +198,6 @@ public class ManagePropertyPanel extends JPanel{
         oldPropertyName.setBounds(285,10, 200,50);
         smallBox.add(oldPropertyName);
 
-        JLabel title = new JLabel("Total Reservation #:", SwingConstants.CENTER);
-        title.setFont(Style.LABEL_FONT);
-        title.setBounds(0, 10, 280, 50);
-
         JLabel label = new JLabel("Reservation to delete:", SwingConstants.CENTER);
         label.setFont(Style.LABEL_FONT);
         label.setBounds(0, 60, 280, 50);
@@ -216,8 +212,6 @@ public class ManagePropertyPanel extends JPanel{
                 });
 
         smallBox.add(submit);
-
-        smallBox.add(title);
         smallBox.add(label);
         smallBox.add(answer);
 
@@ -270,8 +264,9 @@ public class ManagePropertyPanel extends JPanel{
         smallBox.repaint();
     }
 
-    
-
+    /**
+     * Setting up environment impact modifier
+     */
     public void environmentImpact() {
 
         smallBox.removeAll();
@@ -280,7 +275,7 @@ public class ManagePropertyPanel extends JPanel{
 
         JLabel name = new JLabel("Property name: ");
         name.setFont(Style.LABEL_FONT);
-        name.setBounds(30,10, 280,50);
+        name.setBounds(60,10, 280,50);
         smallBox.add(name);
 
         oldPropertyName = new JLabel(currentProperty.getName());
@@ -298,14 +293,14 @@ public class ManagePropertyPanel extends JPanel{
         answer.setBounds(285, 60, 200, 50);
         smallBox.add(answer);
 
-        JLabel value = new JLabel("Date to modify (1-30):", SwingConstants.CENTER);
+        JLabel value = new JLabel("Choose: 0.80 to 1.20", SwingConstants.CENTER);
         value.setFont(Style.LABEL_FONT);
-        value.setBounds(10, 110, 280, 50);
+        value.setBounds(10, 120, 280, 50);
         smallBox.add(value);
 
         JTextField valueField = new JTextField();
         valueField.setFont(Style.INPUT_FONT);
-        valueField.setBounds(285, 110, 200, 50);
+        valueField.setBounds(285, 120, 200, 50);
         smallBox.add(valueField);
 
         JButton submit = Style.createButton("Submit",

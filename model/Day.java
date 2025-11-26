@@ -92,7 +92,6 @@ public class Day {
      * @param modifier Modifier to be assigned
      */
     public void setEnvironmentalModifier(double modifier) {
-        // Add validation: 0.80 to 1.20 check
         if (modifier < 0.8 || modifier > 1.2) {
             throw new IllegalArgumentException("Modifier must be between 0.80 and 1.20.");
         }

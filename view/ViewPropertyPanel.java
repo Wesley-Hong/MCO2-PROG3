@@ -1,13 +1,22 @@
 package view;
 
 import controller.Controller;
-
 import javax.swing.*;
 
+/**
+ * Panel for view property and let user choose functions such as:
+ * View calendar, property summary, availability (date range), specific
+ * date information, and reservation details
+ */
 public class ViewPropertyPanel extends JPanel {
 
     private Controller controller;
 
+    /**
+     * Constructor for accessing 5 different features
+     * @param controller the main application controller that handles
+     *                       screen navigation and business logic
+     */
     public ViewPropertyPanel(Controller controller) {
         this.controller = controller;
         setLayout(null);
