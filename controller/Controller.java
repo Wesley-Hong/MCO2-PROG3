@@ -216,6 +216,64 @@ public class Controller {
         }
     }
 
+    public String getDateRangeString(String start, String end) {
+        Property currentProperty = getCurrentProperty();
+
+        if (currentProperty == null) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "No property selected.");
+            return null;
+        }
+
+        int startDate;
+        try {
+            startDate = Integer.parseInt(start.trim());
+            if (startDate < 1 || startDate > 29) {
+                JOptionPane.showMessageDialog(mainFrame,
+                        "Check-in date must be between 1 and 29.");
+                return null;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "Invalid check-in date format. Please enter a number.");
+            return null;
+        }
+
+        int endDate;
+        try {
+            endDate = Integer.parseInt(end.trim());
+            if (endDate < 2 || endDate > 30) {
+                JOptionPane.showMessageDialog(mainFrame,
+                        "Check-out date must be between 2 and 30.");
+                return null;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "Invalid check-out date format. Please enter a number.");
+            return null;
+        }
+
+        if (startDate >= endDate) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "Check-out date must be after check-in date.");
+            return null;
+        }
+
+        return model.getDateRange(currentProperty.getName(), startDate, endDate);
+
+    }
+
+    public String getReservationDetails() {
+        Property currentProperty = getCurrentProperty();
+
+        if (currentProperty == null) {
+            JOptionPane.showMessageDialog(mainFrame,
+                    "No property selected.");
+            return null;
+        }
+
+        return model.getReservationInformation(currentProperty.getName());
+    }
 
 
     // Check if properties exist
