@@ -146,9 +146,9 @@ public abstract class Property {
     // ---------- Booking / Simulation Methods ----------
 
     public boolean isDateRangeAvailable(int checkIn, int checkOut) {
-        if (checkIn < 1 || checkIn > 30) return false;
-        if (checkOut < 1 || checkOut > 31) return false;
-        if (!(checkIn < checkOut)) return false;
+        if (checkIn < 1 || checkIn > 29) return false;
+        if (checkOut < 2 || checkOut > 30) return false;
+        if (checkIn >= checkOut) return false;
 
         for (int d = checkIn; d < checkOut; d++) {
             if (days[d - 1].isBooked()) return false;
