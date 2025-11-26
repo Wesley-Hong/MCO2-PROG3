@@ -154,7 +154,8 @@ public class Driver {
             System.out.println("2. Update Base Price");
             System.out.println("3. Remove Reservation");
             System.out.println("4. Remove Property");
-            System.out.println("5. Exit");
+            System.out.println("5. Set Environmental Impact Modifier");
+            System.out.println("6. Exit");
             System.out.println("=========================");
 
             int choice = readInt();
@@ -170,6 +171,9 @@ public class Driver {
                     return;
                 }
                 case 5 -> {
+                    setEnvironmentalModifier();
+                }
+                case 6 -> {
                     System.out.println("Exiting system......");
                     return;
                 }
@@ -224,8 +228,6 @@ public class Driver {
             System.out.printf("Total: ₱%.2f\n", res.getTotalPrice());
             System.out.println("Price Breakdown:\n" + res.getPriceBreakdownString());
         }
-
-
     }
 
     /**
@@ -247,7 +249,6 @@ public class Driver {
             switch (choice) {
                 case 1 -> {
                     System.out.print("Enter check-in date (1–29): ");
-
                     int checkIn = readInt();
                     System.out.print("Enter check-out date (2–30): ");
                     int checkOut = readInt();
@@ -265,7 +266,6 @@ public class Driver {
 
                 case 2 -> {
                     System.out.print("Enter date number (1 to 30): ");
-
                     int date = readInt();
 
                     Day day = property.getDayInfo(date);
@@ -281,11 +281,8 @@ public class Driver {
                     reservationInfo(property, false);
                     return;
                 }
-
             }
         }
-
-
     }
 
     /**
@@ -321,11 +318,9 @@ public class Driver {
             }
             System.out.println();
             count++;
-
         }
 
         if (deleteReservation) {
-
             System.out.print("Enter reservation number to remove (1-" + property.getReservations().size() + ") or 0 to cancel: ");
             int choice = readInt();
 
@@ -340,7 +335,6 @@ public class Driver {
             }
 
             Reservation res = property.getReservations().get(choice - 1);
-
             boolean success = property.removeReservation(res);
 
             if (success) {
@@ -371,13 +365,9 @@ public class Driver {
      * @param property the selected property
      */
     private static void propertyInfo (Property property) {
-
         System.out.println("Property: " + property.getName());
-
         System.out.println("Total number of available dates: " + property.getAvailableDateCount());
-
         System.out.println("Estimated earnings: " + property.getEstimatedEarnings());
-
     }
 
     /**
@@ -450,5 +440,44 @@ public class Driver {
     private static String capitalizedFirstLetter (String string){
         if (string == null || string.isEmpty()) return string;
         return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
+    }
+
+    /**
+     * Allows the user to select a property, a date, and a modifier to set the
+     * Environmental Impact Pricing for that specific day (1-30).
+     */
+    private static void setEnvironmentalModifier() {
+        System.out.print("Enter property name to apply modifier to: ");
+        String propertyName = capitalizedFirstLetter(sc.nextLine().trim());
+        Property p = system.findProperty(propertyName);
+
+        if (p == null) {
+            System.out.println("Error: Property '" + propertyName + "' not found.");
+            return;
+        }
+
+        // Input for Date
+        System.out.print("Enter the date number (1-30) to modify: ");
+        int date = readInt();
+
+        // Basic date validation
+        if (date < 1 || date > 30) {
+            System.out.println("Error: Date must be between 1 and 30.");
+            return;
+        }
+
+        // Input for Modifier
+        System.out.println("\nEnter the Environmental Impact Modifier (e.g., 0.90 for 90% or 1.10 for 110%).");
+        System.out.println("Range must be between 0.80 and 1.20.");
+        System.out.print("New Modifier for Day " + date + ": ");
+        double modifier = readDouble();
+
+        // Apply Modifier
+        if (p.setEnvironmentalDayModifier(date, modifier)) {
+            System.out.printf("✅ Success: Environmental modifier for Day %d set to %.2f (%.0f%% of base price).\n", 
+                date, modifier, modifier * 100);
+        } else {
+            System.out.println("❌ Failed to set modifier. Ensure date is 1-30 and modifier is 0.80-1.20.");
+        }    
     }
 }
