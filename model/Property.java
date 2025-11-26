@@ -13,8 +13,8 @@ import java.util.Map;
 public abstract class Property {   
 
     private String name;
-    private double basePrice = 1500.0;
-    private Day[] days = new Day[30];
+    protected double basePrice = 1500.0; // Changed to protected
+    protected Day[] days = new Day[30]; // Changed to protected
     private List<Reservation> reservations = new ArrayList<>();
 
     /**
